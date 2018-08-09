@@ -4,12 +4,14 @@ import math
 
 okno = turtle.Screen()
 okno.bgcolor("black")
-okno.title("Lovci na relikte")
+okno.title("Lovec na relikte")
 okno.setup(700, 700)
 okno.tracer(0)
 
-turtle.register_shape("treasure.gif")
-turtle.register_shape("wall.gif")
+slike = ["treasure.gif", "wall.gif", "dwarf.gif"]
+
+for slika in slike:
+    turtle.register_shape(slika)
 
 class Pisalo(turtle.Turtle):
     def __init__(self):
@@ -23,7 +25,7 @@ class Pisalo(turtle.Turtle):
 class Lovec_na_relikte(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
-        self.shape("square")
+        self.shape("dwarf.gif")
         self.color("blue")
         self.penup()
         self.speed(0)
@@ -86,7 +88,7 @@ nivo = [""]
 
 nivo_1 = [
     "XXXXXXXXXXXXXXXXXXXXXXXXX",
-    "XZ XXXXXXX         TXXXXX",
+    "XZ XXXXXXX          XXXXX",
     "X  XXXXXXX  XXXXXX  XXXXX",
     "X       XX  XXXXXX  XXXXX",
     "X       XX  XXX        XX",
