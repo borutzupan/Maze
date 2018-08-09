@@ -24,16 +24,32 @@ class Lovec_na_relikte(turtle.Turtle):
         self.speed(0)
 
     def gor(self):
-        self.goto(self.xcor(), self.ycor() + 24)
+        naslednje_koor_x = lovec.xcor()
+        naslednje_koor_y = lovec.ycor() + 24
+
+        if (naslednje_koor_x, naslednje_koor_y) not in zid:
+            self.goto(self.xcor(), self.ycor() + 24)
 
     def dol(self):
-        self.goto(self.xcor(), self.ycor() - 24)
+        naslednje_koor_x = lovec.xcor()
+        naslednje_koor_y = lovec.ycor() - 24
+
+        if (naslednje_koor_x, naslednje_koor_y) not in zid:
+            self.goto(self.xcor(), self.ycor() - 24)
 
     def levo(self):
-        self.goto(self.xcor() - 24, self.ycor())
+        naslednje_koor_x = lovec.xcor() - 24
+        naslednje_koor_y = lovec.ycor()
+
+        if (naslednje_koor_x, naslednje_koor_y) not in zid:
+            self.goto(self.xcor() - 24, self.ycor())
 
     def desno(self):
-        self.goto(self.xcor() + 24, self.ycor())
+        naslednje_koor_x = lovec.xcor() + 24
+        naslednje_koor_y = lovec.ycor()
+
+        if (naslednje_koor_x, naslednje_koor_y) not in zid:
+            self.goto(self.xcor() + 24, self.ycor())
 
 nivo = [""]
 
@@ -80,10 +96,13 @@ def nariši_labirint(NIVO):
           if znak == "X":
               pisalo.goto(x_platno, y_platno)
               pisalo.stamp()
+              zid.append((x_platno, y_platno))
 
 
 pisalo = Pisalo()
 lovec = Lovec_na_relikte()
+
+zid = []
 
 nariši_labirint(nivo[1])
 
