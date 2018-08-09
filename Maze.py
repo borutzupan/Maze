@@ -23,11 +23,23 @@ class Lovec_na_relikte(turtle.Turtle):
         self.penup()
         self.speed(0)
 
+    def gor(self):
+        self.goto(self.xcor(), self.ycor() + 24)
+
+    def dol(self):
+        self.goto(self.xcor(), self.ycor() - 24)
+
+    def levo(self):
+        self.goto(self.xcor() - 24, self.ycor())
+
+    def desno(self):
+        self.goto(self.xcor() + 24, self.ycor())
+
 nivo = [""]
 
 nivo_1 = [
     "XXXXXXXXXXXXXXXXXXXXXXXXX",
-    "X  XXXXXXX          XXXXX",
+    "XZ XXXXXXX          XXXXX",
     "X  XXXXXXX  XXXXXX  XXXXX",
     "X       XX  XXXXXX  XXXXX",
     "X       XX  XXX        XX",
@@ -62,18 +74,34 @@ def nariši_labirint(NIVO):
           x_platno = -288 + (x * 24)
           y_platno = 288 - (y * 24)
 
+          if znak == "Z":
+              lovec.goto(x_platno, y_platno)
+
           if znak == "X":
               pisalo.goto(x_platno, y_platno)
               pisalo.stamp()
+
 
 pisalo = Pisalo()
 lovec = Lovec_na_relikte()
 
 nariši_labirint(nivo[1])
 
+#tipke
+turtle.listen()
+turtle.onkey(lovec.gor, "w")
+turtle.onkey(lovec.dol, "s")
+turtle.onkey(lovec.levo, "a")
+turtle.onkey(lovec.desno, "d")
+turtle.onkey(lovec.gor, "Up")
+turtle.onkey(lovec.dol, "Down")
+turtle.onkey(lovec.levo, "Left")
+turtle.onkey(lovec.desno, "Right")
+
+
 #mainloop()
 while True:
-    pass
+    okno.update()
 
 
 
