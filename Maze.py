@@ -1,9 +1,10 @@
 #Link do python dokumentacije za class turtle: https://docs.python.org/3.0/library/turtle.html
 import turtle
+import math
 
 okno = turtle.Screen()
 okno.bgcolor("black")
-okno.title("Labirint")
+okno.title("Lovci na relikte")
 okno.setup(700, 700)
 
 class Pisalo(turtle.Turtle):
@@ -22,6 +23,7 @@ class Lovec_na_relikte(turtle.Turtle):
         self.color("blue")
         self.penup()
         self.speed(0)
+        self.gold = 0
 
     def gor(self):
         naslednje_koor_x = lovec.xcor()
@@ -51,18 +53,43 @@ class Lovec_na_relikte(turtle.Turtle):
         if (naslednje_koor_x, naslednje_koor_y) not in zid:
             self.goto(self.xcor() + 24, self.ycor())
 
+    def našel_zaklad(self, other):
+        a = self.xcor() - other.xcor()
+        b = self.ycor() - other.ycor()
+        oddaljenost = math.sqrt((a ** 2) + (b ** 2))
+
+        if oddaljenost < 5:
+            return True
+        else:
+            False
+
+            
+class Zaklad(turtle.Turtle):
+    def __init__(self, x, y):
+        turtle.Turtle.__init__(self)
+        self.shape("circle")
+        self.color("gold")
+        self.penup()
+        self.speed(0)
+        self.gold = 100
+        self.goto(x, y)
+
+    def zaklad_pobran(self):
+        self.hideturtle()
+        
+
 nivo = [""]
 
 nivo_1 = [
     "XXXXXXXXXXXXXXXXXXXXXXXXX",
-    "XZ XXXXXXX          XXXXX",
+    "XZ XXXXXXX         TXXXXX",
     "X  XXXXXXX  XXXXXX  XXXXX",
     "X       XX  XXXXXX  XXXXX",
     "X       XX  XXX        XX",
     "XXXXXX  XX  XXX        XX",
     "XXXXXX  XX  XXXXXX  XXXXX",
     "XXXXXX  XX    XXXX  XXXXX",
-    "X  XXX        XXXX  XXXXX",
+    "X  XXX        XXXXT XXXXX",
     "X  XXX  XXXXXXXXXXXXXXXXX",
     "X         XXXXXXXXXXXXXXX",
     "X                XXXXXXXX",
@@ -81,6 +108,8 @@ nivo_1 = [
     "XXXXXXXXXXXXXXXXXXXXXXXXX"
     ]
 
+zakladi = []
+
 nivo.append(nivo_1)
 
 def nariši_labirint(NIVO):
@@ -90,6 +119,9 @@ def nariši_labirint(NIVO):
           x_platno = -288 + (x * 24)
           y_platno = 288 - (y * 24)
 
+          if znak == "T":
+              zakladi.append(Zaklad(x_platno, y_platno))
+
           if znak == "Z":
               lovec.goto(x_platno, y_platno)
 
@@ -97,6 +129,7 @@ def nariši_labirint(NIVO):
               pisalo.goto(x_platno, y_platno)
               pisalo.stamp()
               zid.append((x_platno, y_platno))
+
 
 
 pisalo = Pisalo()
@@ -117,9 +150,18 @@ turtle.onkey(lovec.dol, "Down")
 turtle.onkey(lovec.levo, "Left")
 turtle.onkey(lovec.desno, "Right")
 
+okno.tracer(0)
 
 #mainloop()
 while True:
+    for zaklad in zakladi:
+        if lovec.našel_zaklad(zaklad):
+            lovec.gold += zaklad.gold
+            print("Player Gold: {}".format(lovec.gold))
+            zaklad.zaklad_pobran()
+            zakladi.remove(zaklad)
+
+
     okno.update()
 
 
