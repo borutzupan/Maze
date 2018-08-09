@@ -6,6 +6,10 @@ okno = turtle.Screen()
 okno.bgcolor("black")
 okno.title("Lovci na relikte")
 okno.setup(700, 700)
+okno.tracer(0)
+
+turtle.register_shape("treasure.gif")
+turtle.register_shape("wall.gif")
 
 class Pisalo(turtle.Turtle):
     def __init__(self):
@@ -67,7 +71,7 @@ class Lovec_na_relikte(turtle.Turtle):
 class Zaklad(turtle.Turtle):
     def __init__(self, x, y):
         turtle.Turtle.__init__(self)
-        self.shape("circle")
+        self.shape("treasure.gif")
         self.color("gold")
         self.penup()
         self.speed(0)
@@ -127,6 +131,7 @@ def nariši_labirint(NIVO):
 
           if znak == "X":
               pisalo.goto(x_platno, y_platno)
+              pisalo.shape("wall.gif")
               pisalo.stamp()
               zid.append((x_platno, y_platno))
 
@@ -150,7 +155,6 @@ turtle.onkey(lovec.dol, "Down")
 turtle.onkey(lovec.levo, "Left")
 turtle.onkey(lovec.desno, "Right")
 
-okno.tracer(0)
 
 #mainloop()
 while True:
