@@ -8,9 +8,8 @@ okno.setup(700, 700)
 class Pisalo(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
-        self.shape("sqare")
+        self.shape("square")
         self.color("white")
-        self.dvigni_pisalo
         self.speed(0)
 
 nivo = [""]
@@ -42,6 +41,26 @@ nivo_1 = [
     "XXXX                    X",
     "XXXXXXXXXXXXXXXXXXXXXXXXX"
     ]
+
+nivo.append(nivo_1)
+
+def nariši_labirint(NIVO):
+    for y in range(len(NIVO)):
+        for x in range(len(NIVO[y])):
+          znak = NIVO[y][x]
+          x_platno = -288 + (x * 24)
+          y_platno = 288 - (y * 24)
+
+          if znak == "X":
+              pisalo.goto(x_platno, y_platno)
+              pisalo.stamp()
+
+pisalo = Pisalo()
+
+nariši_labirint(nivo[1])
+
+while True:
+    pass
 
 
 
