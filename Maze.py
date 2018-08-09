@@ -1,3 +1,4 @@
+#Link do python dokumentacije za class turtle: https://docs.python.org/3.0/library/turtle.html
 import turtle
 
 okno = turtle.Screen()
@@ -10,6 +11,7 @@ class Pisalo(turtle.Turtle):
         turtle.Turtle.__init__(self)
         self.shape("square")
         self.color("white")
+        self.penup()
         self.speed(0)
 
 nivo = [""]
@@ -59,6 +61,7 @@ pisalo = Pisalo()
 
 nariši_labirint(nivo[1])
 
+#mainloop()
 while True:
     pass
 
