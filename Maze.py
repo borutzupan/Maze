@@ -1,3 +1,16 @@
-Python 3.6.4 (v3.6.4:d48eceb, Dec 19 2017, 06:54:40) [MSC v.1900 64 bit (AMD64)] on win32
-Type "copyright", "credits" or "license()" for more information.
->>> 
+import turtle
+
+okno = turtle.Screen()
+okno.bgcolor("black")
+okno.title("Labirint")
+okno.setup(700, 700)
+
+class Pisalo(turtle.Turtle):
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.shape("sqare")
+        self.color("white")
+        self.dvigni_pisalo
+        self.speed(0)
+
+
