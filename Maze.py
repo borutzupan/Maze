@@ -14,6 +14,15 @@ class Pisalo(turtle.Turtle):
         self.penup()
         self.speed(0)
 
+
+class Lovec_na_relikte(turtle.Turtle):
+    def __init__(self):
+        turtle.Turtle.__init__(self)
+        self.shape("square")
+        self.color("blue")
+        self.penup()
+        self.speed(0)
+
 nivo = [""]
 
 nivo_1 = [
@@ -58,6 +67,7 @@ def nariši_labirint(NIVO):
               pisalo.stamp()
 
 pisalo = Pisalo()
+lovec = Lovec_na_relikte()
 
 nariši_labirint(nivo[1])
 
