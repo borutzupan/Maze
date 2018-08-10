@@ -29,7 +29,7 @@ class Lovec_na_zaklade(turtle.Turtle):
         self.color("blue")
         self.penup()
         self.speed(0)
-        self.gold = 0
+        self.zlato = 0
         self.ime = ime
 
     def gor(self):
@@ -71,7 +71,7 @@ class Lovec_na_zaklade(turtle.Turtle):
             False
 
     def smrt(self):
-        self.gold -= 50
+        self.zlato -= 50
         turtle.penup()
         turtle.hideturtle()
         turtle.goto(-520, 250)
@@ -81,14 +81,14 @@ class Lovec_na_zaklade(turtle.Turtle):
         turtle.ontimer(turtle.undo(), 1000)
 
     def našel_zaklad(self):
-        self.gold += zaklad.gold
+        self.zlato += zaklad.zlato
         turtle.penup()
         turtle.hideturtle()
         turtle.goto(-550, 150)
         turtle.color("gold")
-        turtle.write("""Število zlatih
-kovancev ({}): +100""".format(self.ime), False, font=("Arial", 14, "normal"))
-        turtle.ontimer(turtle.undo(), 1000)
+        turtle.write("""Super {}!
+Št. kovancev +100""".format(self.ime), False, font=("Arial", 16, "normal"))
+        turtle.ontimer(turtle.undo(), 700)
         zaklad.zaklad_pobran()
         zakladi.remove(zaklad)
 
@@ -99,7 +99,7 @@ class Zaklad(turtle.Turtle):
         self.shape("treasure.gif")
         self.penup()
         self.speed(0)
-        self.gold = 100
+        self.zlato = 100
         self.goto(x, y)
 
     def zaklad_pobran(self):
@@ -107,12 +107,13 @@ class Zaklad(turtle.Turtle):
 
 
 class Ogenj(turtle.Turtle):
-    def __init__(self, x, y):
+    def __init__(self, x, y,):
         turtle.Turtle.__init__(self)
         self.shape("flame.gif")
         self.penup()
         self.speed(0)
         self.goto(x, y)
+
 
 class Lava(turtle.Turtle):
     def __init__(self, x, y):
@@ -149,7 +150,7 @@ začetki = []
 zid = []
 
 
-#LABIRINT
+#LABIRINT - FUNKCIJA
 def nariši_labirint(NIVO):
     for y in range(len(NIVO)):
         for x in range(len(NIVO[y])):
@@ -181,19 +182,27 @@ def nariši_labirint(NIVO):
               zid.append((x_platno, y_platno))
 
 
+#OSEBE
+pisalo = Pisalo()
+print("Igralec 1 uporablja tipke w, s, a, d")
+print("Igralec 2 uporablja tipke Up, Down, Left, Right")
+ime_1 = input("Igralec 1, vpiši svoje ime: ")
+karakter_1 = input("{}, izberi enega iz med karakterjev(dwarf, orc): ".format(ime_1))
+ime_2 = input("Igralec 2, vpiši svoje ime: ")
+karakter_2 = input("{}, izberi enega iz med karakterjev(dwarf, orc): ".format(ime_2))
+if ime_1 != '' and karakter_1 != '':
+    Lovec_1 = Lovec_na_zaklade(ime_1, karakter_1 + ".gif")
+if ime_2 != '' and karakter_2 != '':
+    Lovec_2 = Lovec_na_zaklade(ime_2, karakter_2 + ".gif")
+
+
+#LABIRINT
 if vrsta_nivoja != '':
     okno = turtle.Screen()
     okno.bgcolor("black")
     okno.title("Lovci na zaklade")
-    okno.setup(1200, 700)
+    okno.setup(1200, 670)
     okno.tracer(7)
-
-
-#OSEBE
-pisalo = Pisalo()
-Lovec_1 = Lovec_na_zaklade("Lovec 1", "dwarf.gif")
-Lovec_2 = Lovec_na_zaklade("Lovec 2", "orc.gif")
-
 
 nariši_labirint(nivo[0])
 
@@ -234,13 +243,13 @@ if vrsta_nivoja != '':
         okno.update()
         if zakladi == []:
             turtle.bye()
-            print("Lovec 1: {}".format(Lovec_1.gold))
-            print("Lovec 2: {}".format(Lovec_2.gold))
-            if Lovec_1.gold > Lovec_2.gold:
-                print("Lovec 1 JE ZMAGAL!")
-            elif Lovec_2.gold > Lovec_1.gold:
-                print("Lovec 2 JE ZMAGAL!")
-            elif Lovec_1.gold == Lovec_2.gold:
+            print("{}: {}".format(Lovec_1.ime, Lovec_1.zlato))
+            print("{}: {}".format(Lovec_2.ime, Lovec_2.zlato))
+            if Lovec_1.zlato > Lovec_2.zlato:
+                print(Lovec_1.ime + " JE ZMAGAL!")
+            elif Lovec_2.zlato > Lovec_1.zlato:
+                print(Lovec_2.ime + " JE ZMAGAL!")
+            elif Lovec_1.zlato == Lovec_2.zlato:
                 print("IZENAČEN IZID!")
 
     
