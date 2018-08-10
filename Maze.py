@@ -1,14 +1,14 @@
 #Link do python dokumentacije za class turtle: https://docs.python.org/3.0/library/turtle.html
 import turtle
 import math
-from multiprocessing import Process
+
 
 #Ozadje
 okno = turtle.Screen()
 okno.bgcolor("black")
 okno.title("Lovci na zaklade")
 okno.setup(1200, 700)
-okno.tracer(6)
+okno.tracer(7)
 
 #Slike
 slike = ["treasure.gif", "wall.gif", "dwarf.gif", "flame.gif", "orc.gif"]
@@ -85,9 +85,10 @@ class Lovec_na_zaklade(turtle.Turtle):
         self.gold += zaklad.gold
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(-520, 180)
+        turtle.goto(-550, 180)
         turtle.color("gold")
-        turtle.write("Število zlatih kovancev ({}): {}".format(self.ime, self.gold), False, font=("Arial", 16, "normal"))
+        turtle.write("""Število zlatih
+kovancev ({}): {}""".format(self.ime, self.gold), False, font=("Arial", 14, "normal"))
         turtle.ontimer(turtle.undo(), 1000)
         zaklad.zaklad_pobran()
         zakladi.remove(zaklad)
@@ -226,6 +227,18 @@ while True:
 
 
     okno.update()
+    if zakladi == []:
+        turtle.bye()
+        print("Lovec 1: {}".format(Lovec_1.gold))
+        print("Lovec 2: {}".format(Lovec_2.gold))
+        if Lovec_1.gold > Lovec_2.gold:
+            print("Lovec 1 JE ZMAGAL!")
+        elif Lovec_2.gold > Lovec_1.gold:
+            print("Lovec 2 JE ZMAGAL!")
+        elif Lovec_1.gold == Lovec_2.gold:
+            print("IZENAČEN IZID!")
+
+    
 
 
 
