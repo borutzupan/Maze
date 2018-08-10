@@ -1,13 +1,14 @@
 #Link do python dokumentacije za class turtle: https://docs.python.org/3.0/library/turtle.html
 import turtle
 import math
+from multiprocessing import Process
 
 #Ozadje
 okno = turtle.Screen()
 okno.bgcolor("black")
 okno.title("Lovci na zaklade")
 okno.setup(1200, 700)
-okno.tracer(0)
+okno.tracer(6)
 
 #Slike
 slike = ["treasure.gif", "wall.gif", "dwarf.gif", "flame.gif", "orc.gif"]
@@ -76,9 +77,21 @@ class Lovec_na_zaklade(turtle.Turtle):
         turtle.penup()
         turtle.hideturtle()
         turtle.goto(-520, 250)
-        turtle.color("white")
+        turtle.color("red")
         turtle.write("{}, umru si!".format(self.ime), False, font=("Arial", 16, "normal"))
         turtle.ontimer(turtle.undo(), 1800)
+
+    def našel_zaklad(self):
+        self.gold += zaklad.gold
+        turtle.penup()
+        turtle.hideturtle()
+        turtle.goto(-520, 180)
+        turtle.color("gold")
+        turtle.write("Število zlatih kovancev ({}): {}".format(self.ime, self.gold), False, font=("Arial", 16, "normal"))
+        turtle.ontimer(turtle.undo(), 1000)
+        zaklad.zaklad_pobran()
+        zakladi.remove(zaklad)
+
 
             
 class Zaklad(turtle.Turtle):
@@ -196,24 +209,21 @@ turtle.onkey(Lovec_2.desno, "Right")
 while True:
     for zaklad in zakladi:
         if Lovec_1.zadetek(zaklad):
-            Lovec_1.gold += zaklad.gold
-            print("Število zlatih kovancev (Lovec 1): {}".format(Lovec_1.gold))
-            zaklad.zaklad_pobran()
-            zakladi.remove(zaklad)
+            Lovec_1.našel_zaklad()
         elif Lovec_2.zadetek(zaklad):
-            Lovec_2.gold += zaklad.gold
-            print("Število zlatih kovancev (Lovec 2): {}".format(Lovec_2.gold))
-            zaklad.zaklad_pobran()
-            zakladi.remove(zaklad)
+            Lovec_2.našel_zaklad()
 
     for ogenj in ovire:
         if Lovec_1.zadetek(ogenj):
             Lovec_1.smrt()
             Lovec_1.goto(začetki[0])
-        elif Lovec_2.zadetek(ogenj):
-            Lovec_2.smrt()
-            Lovec_2.goto(začetki[1])        
 
+    for ogenj in ovire:
+        if Lovec_2.zadetek(ogenj):
+            Lovec_2.smrt()
+            Lovec_2.goto(začetki[1])
+
+            
     okno.update()
 
 
