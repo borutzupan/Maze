@@ -3,19 +3,16 @@ import turtle
 import math
 
 
-#Ozadje
-okno = turtle.Screen()
-okno.bgcolor("black")
-okno.title("Lovci na zaklade")
-okno.setup(1200, 700)
-okno.tracer(7)
-
-#Slike
+#SLIKE
 slike = ["treasure.gif", "wall.gif", "dwarf.gif", "flame.gif", "orc.gif", "lava.gif"]
-for slika in slike:
-    turtle.register_shape(slika)
+def dodaj_slike(seznam):
+    for slika in seznam:
+        turtle.register_shape(slika)
 
-#Objekti
+dodaj_slike(slike)
+
+
+#OBJEKTI
 class Pisalo(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
@@ -90,7 +87,7 @@ class Lovec_na_zaklade(turtle.Turtle):
         turtle.goto(-550, 150)
         turtle.color("gold")
         turtle.write("""Število zlatih
-kovancev ({}): {}""".format(self.ime, self.gold), False, font=("Arial", 14, "normal"))
+kovancev ({}): +100""".format(self.ime), False, font=("Arial", 14, "normal"))
         turtle.ontimer(turtle.undo(), 1000)
         zaklad.zaklad_pobran()
         zakladi.remove(zaklad)
@@ -124,45 +121,35 @@ class Lava(turtle.Turtle):
         self.penup()
         self.speed(0)
         self.goto(x, y)
+
         
-#Nivoji
-nivo = [""]
+#NIVOJI
+def dodaj_nivoje(ime_datoteke):
+    with open(ime_datoteke) as vhodna:
+        tabela = []
+        for vrstica in vhodna:
+            tabela.append(vrstica)
+    return tabela
 
-nivo_1 = [
-    "XXXXXLLLLLLLLXXXXXXXXXXXX",
-    "X12XXXLLLLLL        XXXXX",
-    "X  XXXXLLLL  XXXXXO XXXXX",
-    "X     OLLX  XXXXXX  XXXXX",
-    "X      OLX  XXX    O  TXX",
-    "XXXXXX OXX  XXX        XX",
-    "XXXXXX  XX  XXXXXX  XXXXX",
-    "XXXXXX  XX    XXXX  XXXXX",
-    "XT XXX      O XXXXT XXXXX",
-    "X  XXX  XXXXXXXXXXXXXXXXX",
-    "X  OO    OXXXXXXXXXXXXXXX",
-    "X     O          XXXXXXXX",
-    "XXXXXXXXXXXXOOO  XXXXXTOX",
-    "XXXXXXXXXXXXXXX  XXXXX  X",
-    "XXX TXXXXXXXXXX  O    O X",
-    "XXX O   O           O   X",
-    "XXX   O     XXXXXXXXXXXXX",
-    "XXXXXXXXXX  XXXXXXXXXXXXX",
-    "XXXXXXXXXX      O      TX",
-    "XX T XXXXX   O          X",
-    "LX  OXXXXXXXXXXXXX  XXXXX",
-    "LL  OOXXXXXXXXXXXX  XXXXX",
-    "LLL  OO     XXXX O      X",
-    "LLLL                 O TX",
-    "LLLLLXXXXXXXXXXXXXXXXXXXX"
-    ]
+nivo = []
+vrsta_nivoja = input("""Kateri nivo bi radi?
+nivo_1, nivo_2 ali nivo_3? """)
 
+if vrsta_nivoja in ['nivo_1', 'nivo_2', 'nivo_3']:
+    nivo.append(dodaj_nivoje(vrsta_nivoja + ".txt"))
+else:
+    vrsta_nivoja = input("""Kateri nivo bi radi?
+nivo_1, nivo_2 ali nivo_3? """)
+
+
+#PRAZNI SENZAMI
 zakladi = []
 ovire = []
 začetki = []
+zid = []
 
-nivo.append(nivo_1)
 
-#Uporabne funkcije
+#LABIRINT
 def nariši_labirint(NIVO):
     for y in range(len(NIVO)):
         for x in range(len(NIVO[y])):
@@ -194,17 +181,24 @@ def nariši_labirint(NIVO):
               zid.append((x_platno, y_platno))
 
 
+if vrsta_nivoja != '':
+    okno = turtle.Screen()
+    okno.bgcolor("black")
+    okno.title("Lovci na zaklade")
+    okno.setup(1200, 700)
+    okno.tracer(7)
 
-#Osebe
+
+#OSEBE
 pisalo = Pisalo()
 Lovec_1 = Lovec_na_zaklade("Lovec 1", "dwarf.gif")
 Lovec_2 = Lovec_na_zaklade("Lovec 2", "orc.gif")
 
-zid = []
 
-nariši_labirint(nivo[1])
+nariši_labirint(nivo[0])
 
-#Tipke
+
+#TIPKE
 turtle.listen()
 turtle.onkey(Lovec_1.gor, "w")
 turtle.onkey(Lovec_1.dol, "s")
@@ -216,40 +210,38 @@ turtle.onkey(Lovec_2.levo, "Left")
 turtle.onkey(Lovec_2.desno, "Right")
 
 
-
-
 #mainloop()
-while True:
-    for zaklad in zakladi:
-        if Lovec_1.zadetek(zaklad):
-            Lovec_1.našel_zaklad()
+if vrsta_nivoja != '':
+    while True:
+        for zaklad in zakladi:
+            if Lovec_1.zadetek(zaklad):
+                Lovec_1.našel_zaklad()
 
-    for zaklad in zakladi:
-        if Lovec_2.zadetek(zaklad):
-            Lovec_2.našel_zaklad()
+        for zaklad in zakladi:
+            if Lovec_2.zadetek(zaklad):
+                Lovec_2.našel_zaklad()
 
-    for ovira in ovire:
-        if Lovec_1.zadetek(ovira):
-            Lovec_1.smrt()
-            Lovec_1.goto(začetki[0])
+        for ovira in ovire:
+            if Lovec_1.zadetek(ovira):
+                Lovec_1.smrt()
+                Lovec_1.goto(začetki[0])
 
-    for ovira in ovire:
-        if Lovec_2.zadetek(ovira):
-            Lovec_2.smrt()
-            Lovec_2.goto(začetki[1])
-
-
-    okno.update()
-    if zakladi == []:
-        turtle.bye()
-        print("Lovec 1: {}".format(Lovec_1.gold))
-        print("Lovec 2: {}".format(Lovec_2.gold))
-        if Lovec_1.gold > Lovec_2.gold:
-            print("Lovec 1 JE ZMAGAL!")
-        elif Lovec_2.gold > Lovec_1.gold:
-            print("Lovec 2 JE ZMAGAL!")
-        elif Lovec_1.gold == Lovec_2.gold:
-            print("IZENAČEN IZID!")
+        for ovira in ovire:
+            if Lovec_2.zadetek(ovira):
+                Lovec_2.smrt()
+                Lovec_2.goto(začetki[1])
+    
+        okno.update()
+        if zakladi == []:
+            turtle.bye()
+            print("Lovec 1: {}".format(Lovec_1.gold))
+            print("Lovec 2: {}".format(Lovec_2.gold))
+            if Lovec_1.gold > Lovec_2.gold:
+                print("Lovec 1 JE ZMAGAL!")
+            elif Lovec_2.gold > Lovec_1.gold:
+                print("Lovec 2 JE ZMAGAL!")
+            elif Lovec_1.gold == Lovec_2.gold:
+                print("IZENAČEN IZID!")
 
     
 
