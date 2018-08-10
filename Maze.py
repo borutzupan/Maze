@@ -92,8 +92,7 @@ class Lovec_na_zaklade(turtle.Turtle):
         zaklad.zaklad_pobran()
         zakladi.remove(zaklad)
 
-
-            
+    
 class Zaklad(turtle.Turtle):
     def __init__(self, x, y):
         turtle.Turtle.__init__(self)
@@ -210,7 +209,9 @@ while True:
     for zaklad in zakladi:
         if Lovec_1.zadetek(zaklad):
             Lovec_1.našel_zaklad()
-        elif Lovec_2.zadetek(zaklad):
+
+    for zaklad in zakladi:
+        if Lovec_2.zadetek(zaklad):
             Lovec_2.našel_zaklad()
 
     for ogenj in ovire:
@@ -223,7 +224,7 @@ while True:
             Lovec_2.smrt()
             Lovec_2.goto(začetki[1])
 
-            
+
     okno.update()
 
 
