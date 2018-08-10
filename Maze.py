@@ -11,7 +11,7 @@ okno.setup(1200, 700)
 okno.tracer(7)
 
 #Slike
-slike = ["treasure.gif", "wall.gif", "dwarf.gif", "flame.gif", "orc.gif"]
+slike = ["treasure.gif", "wall.gif", "dwarf.gif", "flame.gif", "orc.gif", "lava.gif"]
 for slika in slike:
     turtle.register_shape(slika)
 
@@ -74,18 +74,20 @@ class Lovec_na_zaklade(turtle.Turtle):
             False
 
     def smrt(self):
+        self.gold -= 50
         turtle.penup()
         turtle.hideturtle()
         turtle.goto(-520, 250)
         turtle.color("red")
-        turtle.write("{}, umru si!".format(self.ime), False, font=("Arial", 16, "normal"))
-        turtle.ontimer(turtle.undo(), 1800)
+        turtle.write("""{}, umru si!
+Št. kovancev -50""".format(self.ime), False, font=("Arial", 16, "normal"))
+        turtle.ontimer(turtle.undo(), 1000)
 
     def našel_zaklad(self):
         self.gold += zaklad.gold
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(-550, 180)
+        turtle.goto(-550, 150)
         turtle.color("gold")
         turtle.write("""Število zlatih
 kovancev ({}): {}""".format(self.ime, self.gold), False, font=("Arial", 14, "normal"))
@@ -114,36 +116,44 @@ class Ogenj(turtle.Turtle):
         self.penup()
         self.speed(0)
         self.goto(x, y)
+
+class Lava(turtle.Turtle):
+    def __init__(self, x, y):
+        turtle.Turtle.__init__(self)
+        self.shape("lava.gif")
+        self.penup()
+        self.speed(0)
+        self.goto(x, y)
         
 #Nivoji
 nivo = [""]
 
 nivo_1 = [
-    "XXXXXXXXXXXXXXXXXXXXXXXXX",
-    "X12XXXXXXX          XXXXX",
-    "X  XXXXXXX  XXXXXXO XXXXX",
-    "X       XX  XXXXXX  XXXXX",
-    "X       XX  XXX    O   XX",
-    "XXXXXX  XX  XXX        XX",
+    "XXXXXLLLLLLLLXXXXXXXXXXXX",
+    "X12XXXLLLLLL        XXXXX",
+    "X  XXXXLLLL  XXXXXO XXXXX",
+    "X     OLLX  XXXXXX  XXXXX",
+    "X      OLX  XXX    O  TXX",
+    "XXXXXX OXX  XXX        XX",
     "XXXXXX  XX  XXXXXX  XXXXX",
     "XXXXXX  XX    XXXX  XXXXX",
-    "XT XXX        XXXXT XXXXX",
+    "XT XXX      O XXXXT XXXXX",
     "X  XXX  XXXXXXXXXXXXXXXXX",
-    "X         XXXXXXXXXXXXXXX",
-    "X                XXXXXXXX",
-    "XXXXXXXXXXXX     XXXXX  X",
+    "X  OO    OXXXXXXXXXXXXXXX",
+    "X     O          XXXXXXXX",
+    "XXXXXXXXXXXXOOO  XXXXXTOX",
     "XXXXXXXXXXXXXXX  XXXXX  X",
-    "XXX  XXXXXXXXXX         X",
-    "XXX                     X",
-    "XXX         XXXXXXXXXXXXX",
+    "XXX TXXXXXXXXXX  O    O X",
+    "XXX O   O           O   X",
+    "XXX   O     XXXXXXXXXXXXX",
     "XXXXXXXXXX  XXXXXXXXXXXXX",
-    "XXXXXXXXXX              X",
-    "XX   XXXXX              X",
-    "XX   XXXXXXXXXXXXX  XXXXX",
-    "XX    XXXXXXXXXXXX  XXXXX",
-    "XX          XXXX        X",
-    "XXXX                    X",
-    "XXXXXXXXXXXXXXXXXXXXXXXXX"
+    "XXXXXXXXXX      O      TX",
+    "XX T XXXXX   O          X",
+    "LX  OXXXXXXXXXXXXX  XXXXX",
+    "LL  OOXXXXXXXXXXXX  XXXXX",
+    "LLL  OO     XXXX O      X",
+    "LLLL                 O TX",
+    "LLLLLXXXXXXXXXXXXXXXXXXXX"
     ]
 
 zakladi = []
@@ -159,6 +169,9 @@ def nariši_labirint(NIVO):
           znak = NIVO[y][x]
           x_platno = -288 + (x * 24)
           y_platno = 288 - (y * 24)
+
+          if znak == "L":
+              ovire.append(Lava(x_platno, y_platno))
 
           if znak == "O":
               ovire.append(Ogenj(x_platno, y_platno))
@@ -215,13 +228,13 @@ while True:
         if Lovec_2.zadetek(zaklad):
             Lovec_2.našel_zaklad()
 
-    for ogenj in ovire:
-        if Lovec_1.zadetek(ogenj):
+    for ovira in ovire:
+        if Lovec_1.zadetek(ovira):
             Lovec_1.smrt()
             Lovec_1.goto(začetki[0])
 
-    for ogenj in ovire:
-        if Lovec_2.zadetek(ogenj):
+    for ovira in ovire:
+        if Lovec_2.zadetek(ovira):
             Lovec_2.smrt()
             Lovec_2.goto(začetki[1])
 
