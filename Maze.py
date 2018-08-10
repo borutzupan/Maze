@@ -10,7 +10,7 @@ okno.setup(1200, 700)
 okno.tracer(0)
 
 #Slike
-slike = ["treasure.gif", "wall.gif", "dwarf.gif", "flame.gif"]
+slike = ["treasure.gif", "wall.gif", "dwarf.gif", "flame.gif", "orc.gif"]
 for slika in slike:
     turtle.register_shape(slika)
 
@@ -25,9 +25,9 @@ class Pisalo(turtle.Turtle):
 
 
 class Lovec_na_zaklade(turtle.Turtle):
-    def __init__(self, ime):
+    def __init__(self, ime, oblika):
         turtle.Turtle.__init__(self)
-        self.shape("dwarf.gif")
+        self.shape(oblika)
         self.color("blue")
         self.penup()
         self.speed(0)
@@ -171,8 +171,8 @@ def nariši_labirint(NIVO):
 
 #Osebe
 pisalo = Pisalo()
-Lovec_1 = Lovec_na_zaklade("Lovec 1")
-Lovec_2 = Lovec_na_zaklade("Lovec 2")
+Lovec_1 = Lovec_na_zaklade("Lovec 1", "dwarf.gif")
+Lovec_2 = Lovec_na_zaklade("Lovec 2", "orc.gif")
 
 zid = []
 
