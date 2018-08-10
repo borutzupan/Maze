@@ -2,17 +2,19 @@
 import turtle
 import math
 
+#Ozadje
 okno = turtle.Screen()
 okno.bgcolor("black")
 okno.title("Lovec na relikte")
 okno.setup(700, 700)
 okno.tracer(0)
 
-slike = ["treasure.gif", "wall.gif", "dwarf.gif"]
-
+#Slike
+slike = ["treasure.gif", "wall.gif", "dwarf.gif", "flame.gif"]
 for slika in slike:
     turtle.register_shape(slika)
 
+#Objekti
 class Pisalo(turtle.Turtle):
     def __init__(self):
         turtle.Turtle.__init__(self)
@@ -32,34 +34,34 @@ class Lovec_na_relikte(turtle.Turtle):
         self.gold = 0
 
     def gor(self):
-        naslednje_koor_x = lovec.xcor()
-        naslednje_koor_y = lovec.ycor() + 24
+        naslednje_koor_x = self.xcor()
+        naslednje_koor_y = self.ycor() + 24
 
         if (naslednje_koor_x, naslednje_koor_y) not in zid:
             self.goto(self.xcor(), self.ycor() + 24)
 
     def dol(self):
-        naslednje_koor_x = lovec.xcor()
-        naslednje_koor_y = lovec.ycor() - 24
+        naslednje_koor_x = self.xcor()
+        naslednje_koor_y = self.ycor() - 24
 
         if (naslednje_koor_x, naslednje_koor_y) not in zid:
             self.goto(self.xcor(), self.ycor() - 24)
 
     def levo(self):
-        naslednje_koor_x = lovec.xcor() - 24
-        naslednje_koor_y = lovec.ycor()
+        naslednje_koor_x = self.xcor() - 24
+        naslednje_koor_y = self.ycor()
 
         if (naslednje_koor_x, naslednje_koor_y) not in zid:
             self.goto(self.xcor() - 24, self.ycor())
 
     def desno(self):
-        naslednje_koor_x = lovec.xcor() + 24
-        naslednje_koor_y = lovec.ycor()
+        naslednje_koor_x = self.xcor() + 24
+        naslednje_koor_y = self.ycor()
 
         if (naslednje_koor_x, naslednje_koor_y) not in zid:
             self.goto(self.xcor() + 24, self.ycor())
 
-    def našel_zaklad(self, other):
+    def zadetek(self, other):
         a = self.xcor() - other.xcor()
         b = self.ycor() - other.ycor()
         oddaljenost = math.sqrt((a ** 2) + (b ** 2))
@@ -74,7 +76,6 @@ class Zaklad(turtle.Turtle):
     def __init__(self, x, y):
         turtle.Turtle.__init__(self)
         self.shape("treasure.gif")
-        self.color("gold")
         self.penup()
         self.speed(0)
         self.gold = 100
@@ -82,20 +83,29 @@ class Zaklad(turtle.Turtle):
 
     def zaklad_pobran(self):
         self.hideturtle()
-        
 
+
+class Ogenj(turtle.Turtle):
+    def __init__(self, x, y):
+        turtle.Turtle.__init__(self)
+        self.shape("flame.gif")
+        self.penup()
+        self.speed(0)
+        self.goto(x, y)
+        
+#Nivoji
 nivo = [""]
 
 nivo_1 = [
     "XXXXXXXXXXXXXXXXXXXXXXXXX",
-    "XZ XXXXXXX          XXXXX",
-    "X  XXXXXXX  XXXXXX  XXXXX",
+    "X12XXXXXXX          XXXXX",
+    "X  XXXXXXX  XXXXXXO XXXXX",
     "X       XX  XXXXXX  XXXXX",
-    "X       XX  XXX        XX",
+    "X       XX  XXX    O   XX",
     "XXXXXX  XX  XXX        XX",
     "XXXXXX  XX  XXXXXX  XXXXX",
     "XXXXXX  XX    XXXX  XXXXX",
-    "X  XXX        XXXXT XXXXX",
+    "XT XXX        XXXXT XXXXX",
     "X  XXX  XXXXXXXXXXXXXXXXX",
     "X         XXXXXXXXXXXXXXX",
     "X                XXXXXXXX",
@@ -115,6 +125,8 @@ nivo_1 = [
     ]
 
 zakladi = []
+ovire = []
+začetki = []
 
 nivo.append(nivo_1)
 
@@ -125,11 +137,19 @@ def nariši_labirint(NIVO):
           x_platno = -288 + (x * 24)
           y_platno = 288 - (y * 24)
 
+          if znak == "O":
+              ovire.append(Ogenj(x_platno, y_platno))
+              
           if znak == "T":
               zakladi.append(Zaklad(x_platno, y_platno))
 
-          if znak == "Z":
-              lovec.goto(x_platno, y_platno)
+          if znak == "1":
+              lovec1.goto(x_platno, y_platno)
+              začetki.append((x_platno, y_platno))
+
+          if znak == "2":
+              lovec2.goto(x_platno, y_platno)
+              začetki.append((x_platno, y_platno))
 
           if znak == "X":
               pisalo.goto(x_platno, y_platno)
@@ -138,35 +158,49 @@ def nariši_labirint(NIVO):
               zid.append((x_platno, y_platno))
 
 
-
+#Osebe
 pisalo = Pisalo()
-lovec = Lovec_na_relikte()
+lovec1 = Lovec_na_relikte()
+lovec2 = Lovec_na_relikte()
 
 zid = []
 
 nariši_labirint(nivo[1])
 
-#tipke
+#Tipke
 turtle.listen()
-turtle.onkey(lovec.gor, "w")
-turtle.onkey(lovec.dol, "s")
-turtle.onkey(lovec.levo, "a")
-turtle.onkey(lovec.desno, "d")
-turtle.onkey(lovec.gor, "Up")
-turtle.onkey(lovec.dol, "Down")
-turtle.onkey(lovec.levo, "Left")
-turtle.onkey(lovec.desno, "Right")
+turtle.onkey(lovec1.gor, "w")
+turtle.onkey(lovec1.dol, "s")
+turtle.onkey(lovec1.levo, "a")
+turtle.onkey(lovec1.desno, "d")
+turtle.onkey(lovec2.gor, "Up")
+turtle.onkey(lovec2.dol, "Down")
+turtle.onkey(lovec2.levo, "Left")
+turtle.onkey(lovec2.desno, "Right")
 
 
 #mainloop()
 while True:
     for zaklad in zakladi:
-        if lovec.našel_zaklad(zaklad):
-            lovec.gold += zaklad.gold
-            print("Player Gold: {}".format(lovec.gold))
+        if lovec1.zadetek(zaklad):
+            lovec1.gold += zaklad.gold
+            print("Število zlatih kovancev (Lovec 1): {}".format(lovec1.gold))
+            zaklad.zaklad_pobran()
+            zakladi.remove(zaklad)
+        elif lovec2.zadetek(zaklad):
+            lovec2.gold += zaklad.gold
+            print("Število zlatih kovancev (Lovec 2): {}".format(lovec2.gold))
             zaklad.zaklad_pobran()
             zakladi.remove(zaklad)
 
+    for ogenj in ovire:
+        if lovec1.zadetek(ogenj):
+            print("Lovec 1, umru si!")
+            lovec1.goto(začetki[0])
+        elif lovec2.zadetek(ogenj):
+            print("Lovec 2, umru si!")
+            lovec2.goto(začetki[1])
+            
 
     okno.update()
 
