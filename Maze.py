@@ -9,6 +9,7 @@ grmi = []
 ovire = []
 začetki = []
 zid = []
+mapa = []
 
 
 #SLIKE
@@ -89,7 +90,7 @@ class Lovec_na_zaklade(turtle.Turtle):
         self.zlato += -50
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(-550, 250)
+        turtle.goto(-570, 250)
         turtle.color("red")
         turtle.write("""{}, več sreče prihodnjič!
 Št. kovancev -50""".format(self.ime), False, font=("Arial", 16, "normal"))
@@ -100,7 +101,7 @@ class Lovec_na_zaklade(turtle.Turtle):
         self.zlato += zaklad.zlato
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(-550, 150)
+        turtle.goto(-550, 250)
         turtle.color("gold")
         turtle.write("""Super {}!
 Št. kovancev +100""".format(self.ime), False, font=("Arial", 16, "normal"))
@@ -113,7 +114,7 @@ class Lovec_na_zaklade(turtle.Turtle):
         self.zlato += grm.zlato
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(-550, 150)
+        turtle.goto(-550, 250)
         turtle.color("green")
         turtle.write("""Odlično {}!
 Št. kovancev +{}""".format(self.ime, grm.zlato), False, font=("Arial", 16, "normal"))
@@ -176,33 +177,34 @@ class Slime(turtle.Turtle):
         self.goto(x, y)
         
  
-#NIVOJI
-def dodaj_nivoje(ime_datoteke):
+#MAPE
+def dodaj_mapo(ime_datoteke):
     with open(ime_datoteke) as vhodna:
         tabela = []
         for vrstica in vhodna:
             tabela.append(vrstica)
     return tabela
 
-nivo = []
-vrsta_nivoja = input("""Kateri nivo bi radi?
-nivo_1, nivo_2 ali nivo_3? """)
+vrsta_mape = input("""Katero mapo bi radi?
+mapa_1, mapa_2 ali mapa_3? """)
 
 while True:
-    if vrsta_nivoja in ['nivo_1', 'nivo_2', 'nivo_3']:
-       nivo.append(dodaj_nivoje(vrsta_nivoja + ".txt"))
+    if vrsta_mape in ['mapa_1', 'mapa_2', 'mapa_3']:
+       mapa.append(dodaj_mapo(vrsta_mape + ".txt"))
        break
     else:
-       print("Tega pa ni v seznamu!")
-       vrsta_nivoja = input("""Kateri nivo bi radi?
-nivo_1, nivo_2 ali nivo_3? """)
+       print('')
+       print("TE MAPE NI V SEZNAMU!")
+       print('')
+       vrsta_mape = input("""Katero mapo bi radi?
+mapa_1, mapa_2 ali mapa_3? """)
 
 
 #LABIRINT - FUNKCIJA
-def nariši_labirint(NIVO):
-    for y in range(len(NIVO)):
-        for x in range(len(NIVO[y])):
-          znak = NIVO[y][x]
+def nariši_labirint(MAPA):
+    for y in range(len(MAPA)):
+        for x in range(len(MAPA[y])):
+          znak = MAPA[y][x]
           x_platno = -288 + (x * 24)
           y_platno = 288 - (y * 24)
 
@@ -248,17 +250,44 @@ oseba_1 = input("""{}, izberi eneo iz med oseb
 (dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
  plant-golem, archer)
 ali pa se pusti presenetit (random): """.format(ime_1))
-print('')
+
+while True:
+    if (oseba_1 != 'random') and (oseba_1 not in imena_oseb):
+        print('')
+        print("TE OSEBE NI V SEZNAMU!")
+        print('')
+        oseba_1 = input("""{}, izberi eneo iz med oseb
+(dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
+ plant-golem, archer)
+ali pa se pusti presenetit (random): """.format(ime_1))
+    else:
+        break
+
+print('')  
 ime_2 = input("Igralec 2, vpiši svoje izbrano ime: ")
 print('')
 oseba_2 = input("""{}, izberi eneo iz med oseb
 (dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
  plant-golem, archer)
 ali pa se pusti presenetit (random): """.format(ime_2))
+
+while True:
+    if (oseba_2 != 'random') and (oseba_2 not in imena_oseb):
+        print('')
+        print("TE OSEBE NI V SEZNAMU!")
+        print('')
+        oseba_2 = input("""{}, izberi eneo iz med oseb
+(dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
+ plant-golem, archer)
+ali pa se pusti presenetit (random): """.format(ime_2))
+    else:
+        break
+
 if ime_1 != '' and oseba_1 != '':
     if oseba_1 == 'random':
         oseba_1 = random.choice(imena_oseb)
     Lovec_1 = Lovec_na_zaklade(ime_1, oseba_1 + ".gif")
+
 if ime_2 != '' and oseba_2 != '':
     if oseba_2 == 'random':
         oseba_2 = random.choice(imena_oseb)
@@ -266,14 +295,14 @@ if ime_2 != '' and oseba_2 != '':
 
 
 #LABIRINT
-if vrsta_nivoja != '':
+if vrsta_mape != '':
     okno = turtle.Screen()
     okno.bgcolor("black")
     okno.title("Lovci na zaklade")
     okno.setup(1200, 670)
     okno.tracer(8)
 
-nariši_labirint(nivo[0])
+nariši_labirint(mapa[0])
 
 
 #TIPKE
@@ -290,7 +319,7 @@ turtle.onkey(Lovec_2.desno, "Right")
 
 #mainloop()
 
-if vrsta_nivoja != '':
+if vrsta_mape != '':
     while True:
         for zaklad in zakladi:
             if Lovec_1.zadetek(zaklad):
@@ -323,7 +352,12 @@ if vrsta_nivoja != '':
                
         okno.update()
         if zakladi == []:
-           time.sleep(1)
+           turtle.penup()
+           turtle.hideturtle()
+           turtle.goto(25, 0)
+           turtle.color("white")
+           turtle.write("KONEC IGRE", False, align = "center", font=("Arial", 70, "bold"))
+           time.sleep(2)
            turtle.bye()
            print('')
            print("{}: {}".format(Lovec_1.ime, Lovec_1.zlato))
