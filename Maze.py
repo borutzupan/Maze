@@ -1,4 +1,3 @@
-#Link do python dokumentacije za class turtle: https://docs.python.org/3.0/library/turtle.html
 import turtle
 import math
 import time
@@ -18,6 +17,8 @@ slike = [
     "wall.gif", "dwarf.gif", "flame.gif", "orc.gif", "lava.gif", "grm.gif",
     "archer.gif", "plant-golem.gif", "viking.gif", "vampire-viking.gif"
     ]
+imena_karakterjev = ["dwarf", "orc", "male-zombie", "female-zombie", "human",
+                     "viking", "vampire-viking", "plant-golem, archer"]
 def dodaj_slike(seznam):
     for slika in seznam:
         turtle.register_shape(slika)
@@ -223,19 +224,30 @@ def nariši_labirint(NIVO):
 
 #OSEBE
 pisalo = Pisalo()
+print('')
 print("Igralec 1 uporablja tipke w, s, a, d")
 print("Igralec 2 uporablja tipke Up, Down, Left, Right")
+print('')
 ime_1 = input("Igralec 1, vpiši svoje izbrano ime: ")
+print('')
 karakter_1 = input("""{}, izberi enega iz med karakterjev
 (dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
-plant-golem, archer): """.format(ime_1))
+plant-golem, archer)
+ali pa se pusti presenetit (random): """.format(ime_1))
+print('')
 ime_2 = input("Igralec 2, vpiši svoje izbrano ime: ")
+print('')
 karakter_2 = input("""{}, izberi enega iz med karakterjev
 (dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
-plant-golem, archer): """.format(ime_2))
+plant-golem, archer)
+ali pa se pusti presenetit (random): """.format(ime_2))
 if ime_1 != '' and karakter_1 != '':
+    if karakter_1 == 'random':
+        karakter_1 = random.choice(imena_karakterjev)
     Lovec_1 = Lovec_na_zaklade(ime_1, karakter_1 + ".gif")
 if ime_2 != '' and karakter_2 != '':
+    if karakter_2 == 'random':
+        karakter_2 = random.choice(imena_karakterjev)
     Lovec_2 = Lovec_na_zaklade(ime_2, karakter_2 + ".gif")
 
 
@@ -300,6 +312,7 @@ if vrsta_nivoja != '':
            turtle.bye()
            print("{}: {}".format(Lovec_1.ime, Lovec_1.zlato))
            print("{}: {}".format(Lovec_2.ime, Lovec_2.zlato))
+           print('')
            if Lovec_1.zlato > Lovec_2.zlato:
               print(Lovec_1.ime + " JE ZMAGAL!")
            elif Lovec_2.zlato > Lovec_1.zlato:
