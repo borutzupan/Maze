@@ -4,6 +4,13 @@ import math
 import time
 
 
+#SENZAMI
+zakladi = []
+ovire = []
+začetki = []
+zid = []
+
+
 #SLIKE
 slike = [
     "female-zombie.gif", "male-zombie.gif", "human.gif", "treasure.gif",
@@ -79,9 +86,9 @@ class Lovec_na_zaklade(turtle.Turtle):
         self.zlato -= 50
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(-520, 250)
+        turtle.goto(-540, 250)
         turtle.color("red")
-        turtle.write("""{}, umru si!
+        turtle.write("""{}, več sreče prihodnjič!
 Št. kovancev -50""".format(self.ime), False, font=("Arial", 16, "normal"))
         time.sleep(1.2)
         turtle.undo()
@@ -90,7 +97,7 @@ class Lovec_na_zaklade(turtle.Turtle):
         self.zlato += zaklad.zlato
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(-550, 150)
+        turtle.goto(-540, 150)
         turtle.color("gold")
         turtle.write("""Super {}!
 Št. kovancev +100""".format(self.ime), False, font=("Arial", 16, "normal"))
@@ -143,18 +150,15 @@ nivo = []
 vrsta_nivoja = input("""Kateri nivo bi radi?
 nivo_1, nivo_2 ali nivo_3? """)
 
-if vrsta_nivoja in ['nivo_1', 'nivo_2', 'nivo_3']:
-    nivo.append(dodaj_nivoje(vrsta_nivoja + ".txt"))
-else:
-    vrsta_nivoja = input("""Kateri nivo bi radi?
+while True:
+    if vrsta_nivoja in ['nivo_1', 'nivo_2', 'nivo_3']:
+       nivo.append(dodaj_nivoje(vrsta_nivoja + ".txt"))
+       print(nivo)
+       break
+    else:
+       print("Tega pa ni v seznamu!")
+       vrsta_nivoja = input("""Kateri nivo bi radi?
 nivo_1, nivo_2 ali nivo_3? """)
-
-
-#PRAZNI SENZAMI
-zakladi = []
-ovire = []
-začetki = []
-zid = []
 
 
 #LABIRINT - FUNKCIJA
@@ -211,7 +215,7 @@ if vrsta_nivoja != '':
     okno.bgcolor("black")
     okno.title("Lovci na zaklade")
     okno.setup(1200, 670)
-    okno.tracer(0)
+    okno.tracer(8)
 
 nariši_labirint(nivo[0])
 
@@ -243,13 +247,13 @@ if vrsta_nivoja != '':
         for ovira in ovire:
             if Lovec_1.zadetek(ovira):
                Lovec_1.goto(začetki[0])
-               time.sleep(0.5)
+               time.sleep(0.3)
                Lovec_1.smrt()
                
         for ovira in ovire:
             if Lovec_2.zadetek(ovira):
                Lovec_2.goto(začetki[1])
-               time.sleep(0.5)
+               time.sleep(0.3)
                Lovec_2.smrt()
                
         okno.update()
@@ -264,6 +268,8 @@ if vrsta_nivoja != '':
               print(Lovec_2.ime + " JE ZMAGAL!")
            elif Lovec_1.zlato == Lovec_2.zlato:
               print("IZENAČEN IZID!")
+
+        
 
 
     
