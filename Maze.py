@@ -4,7 +4,11 @@ import math
 
 
 #SLIKE
-slike = ["treasure.gif", "wall.gif", "dwarf.gif", "flame.gif", "orc.gif", "lava.gif"]
+slike = [
+    "female-zombie.gif", "male-zombie.gif", "human.gif", "treasure.gif",
+    "wall.gif", "dwarf.gif", "flame.gif", "orc.gif", "lava.gif", 
+    
+    ]
 def dodaj_slike(seznam):
     for slika in seznam:
         turtle.register_shape(slika)
@@ -186,10 +190,12 @@ def nariši_labirint(NIVO):
 pisalo = Pisalo()
 print("Igralec 1 uporablja tipke w, s, a, d")
 print("Igralec 2 uporablja tipke Up, Down, Left, Right")
-ime_1 = input("Igralec 1, vpiši svoje ime: ")
-karakter_1 = input("{}, izberi enega iz med karakterjev(dwarf, orc): ".format(ime_1))
-ime_2 = input("Igralec 2, vpiši svoje ime: ")
-karakter_2 = input("{}, izberi enega iz med karakterjev(dwarf, orc): ".format(ime_2))
+ime_1 = input("Igralec 1, vpiši svoje izbrano ime: ")
+karakter_1 = input("""{}, izberi enega iz med karakterjev
+(dwarf, orc, male-zombie, female-zombie, human): """.format(ime_1))
+ime_2 = input("Igralec 2, vpiši svoje izbrano ime: ")
+karakter_2 = input("""{}, izberi enega iz med karakterjev
+(dwarf, orc, male-zombie, female-zombie, human): """.format(ime_2))
 if ime_1 != '' and karakter_1 != '':
     Lovec_1 = Lovec_na_zaklade(ime_1, karakter_1 + ".gif")
 if ime_2 != '' and karakter_2 != '':
