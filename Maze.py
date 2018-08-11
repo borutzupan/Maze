@@ -2,10 +2,11 @@
 import turtle
 import math
 import time
-
+import random
 
 #SENZAMI
 zakladi = []
+grmi = []
 ovire = []
 začetki = []
 zid = []
@@ -14,8 +15,8 @@ zid = []
 #SLIKE
 slike = [
     "female-zombie.gif", "male-zombie.gif", "human.gif", "treasure.gif",
-    "wall.gif", "dwarf.gif", "flame.gif", "orc.gif", "lava.gif", 
-    
+    "wall.gif", "dwarf.gif", "flame.gif", "orc.gif", "lava.gif", "grm.gif",
+    "archer.gif", "plant-golem.gif", "viking.gif", "vampire-viking.gif"
     ]
 def dodaj_slike(seznam):
     for slika in seznam:
@@ -86,7 +87,7 @@ class Lovec_na_zaklade(turtle.Turtle):
         self.zlato -= 50
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(-540, 250)
+        turtle.goto(-550, 250)
         turtle.color("red")
         turtle.write("""{}, več sreče prihodnjič!
 Št. kovancev -50""".format(self.ime), False, font=("Arial", 16, "normal"))
@@ -97,7 +98,7 @@ class Lovec_na_zaklade(turtle.Turtle):
         self.zlato += zaklad.zlato
         turtle.penup()
         turtle.hideturtle()
-        turtle.goto(-540, 150)
+        turtle.goto(-550, 150)
         turtle.color("gold")
         turtle.write("""Super {}!
 Št. kovancev +100""".format(self.ime), False, font=("Arial", 16, "normal"))
@@ -105,6 +106,19 @@ class Lovec_na_zaklade(turtle.Turtle):
         turtle.undo()
         zaklad.zaklad_pobran()
         zakladi.remove(zaklad)
+
+    def našel_grm(self):
+        self.zlato += grm.zlato
+        turtle.penup()
+        turtle.hideturtle()
+        turtle.goto(-550, 150)
+        turtle.color("green")
+        turtle.write("""Odlično {}!
+Št. kovancev +{}""".format(self.ime, grm.zlato), False, font=("Arial", 16, "normal"))
+        time.sleep(1.2)
+        turtle.undo()
+        grm.grm_preiskan()
+        grmi.remove(grm)
 
     
 class Zaklad(turtle.Turtle):
@@ -137,6 +151,18 @@ class Lava(turtle.Turtle):
         self.speed(0)
         self.goto(x, y)
 
+class Grm(turtle.Turtle):
+    def __init__(self, x, y):
+        turtle.Turtle.__init__(self)
+        self.shape("grm.gif")
+        self.penup()
+        self.speed(0)
+        self.goto(x, y)
+        self.zlato = random.randint(-50, 150)
+
+    def grm_preiskan(self):
+        self.ht()
+
         
 #NIVOJI
 def dodaj_nivoje(ime_datoteke):
@@ -153,7 +179,6 @@ nivo_1, nivo_2 ali nivo_3? """)
 while True:
     if vrsta_nivoja in ['nivo_1', 'nivo_2', 'nivo_3']:
        nivo.append(dodaj_nivoje(vrsta_nivoja + ".txt"))
-       print(nivo)
        break
     else:
        print("Tega pa ni v seznamu!")
@@ -169,6 +194,9 @@ def nariši_labirint(NIVO):
           x_platno = -288 + (x * 24)
           y_platno = 288 - (y * 24)
 
+          if znak == "G":
+              grmi.append(Grm(x_platno, y_platno))
+            
           if znak == "L":
               ovire.append(Lava(x_platno, y_platno))
 
@@ -199,10 +227,12 @@ print("Igralec 1 uporablja tipke w, s, a, d")
 print("Igralec 2 uporablja tipke Up, Down, Left, Right")
 ime_1 = input("Igralec 1, vpiši svoje izbrano ime: ")
 karakter_1 = input("""{}, izberi enega iz med karakterjev
-(dwarf, orc, male-zombie, female-zombie, human): """.format(ime_1))
+(dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
+plant-golem, archer): """.format(ime_1))
 ime_2 = input("Igralec 2, vpiši svoje izbrano ime: ")
 karakter_2 = input("""{}, izberi enega iz med karakterjev
-(dwarf, orc, male-zombie, female-zombie, human): """.format(ime_2))
+(dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
+plant-golem, archer): """.format(ime_2))
 if ime_1 != '' and karakter_1 != '':
     Lovec_1 = Lovec_na_zaklade(ime_1, karakter_1 + ".gif")
 if ime_2 != '' and karakter_2 != '':
@@ -244,6 +274,14 @@ if vrsta_nivoja != '':
             if Lovec_2.zadetek(zaklad):
                Lovec_2.našel_zaklad()
 
+        for grm in grmi:
+            if Lovec_1.zadetek(grm):
+               Lovec_1.našel_grm()
+
+        for grm in grmi:
+            if Lovec_2.zadetek(grm):
+               Lovec_2.našel_grm()
+
         for ovira in ovire:
             if Lovec_1.zadetek(ovira):
                Lovec_1.goto(začetki[0])
@@ -258,7 +296,7 @@ if vrsta_nivoja != '':
                
         okno.update()
         if zakladi == []:
-           time.sleep(1.5)
+           time.sleep(1)
            turtle.bye()
            print("{}: {}".format(Lovec_1.ime, Lovec_1.zlato))
            print("{}: {}".format(Lovec_2.ime, Lovec_2.zlato))
