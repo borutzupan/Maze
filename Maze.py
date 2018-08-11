@@ -1,6 +1,7 @@
 #Link do python dokumentacije za class turtle: https://docs.python.org/3.0/library/turtle.html
 import turtle
 import math
+import time
 
 
 #SLIKE
@@ -82,7 +83,8 @@ class Lovec_na_zaklade(turtle.Turtle):
         turtle.color("red")
         turtle.write("""{}, umru si!
 Št. kovancev -50""".format(self.ime), False, font=("Arial", 16, "normal"))
-        turtle.ontimer(turtle.undo(), 1000)
+        time.sleep(1.2)
+        turtle.undo()
 
     def našel_zaklad(self):
         self.zlato += zaklad.zlato
@@ -92,7 +94,8 @@ class Lovec_na_zaklade(turtle.Turtle):
         turtle.color("gold")
         turtle.write("""Super {}!
 Št. kovancev +100""".format(self.ime), False, font=("Arial", 16, "normal"))
-        turtle.ontimer(turtle.undo(), 700)
+        time.sleep(1.2)
+        turtle.undo()
         zaklad.zaklad_pobran()
         zakladi.remove(zaklad)
 
@@ -208,7 +211,7 @@ if vrsta_nivoja != '':
     okno.bgcolor("black")
     okno.title("Lovci na zaklade")
     okno.setup(1200, 670)
-    okno.tracer(7)
+    okno.tracer(0)
 
 nariši_labirint(nivo[0])
 
@@ -226,37 +229,42 @@ turtle.onkey(Lovec_2.desno, "Right")
 
 
 #mainloop()
+
 if vrsta_nivoja != '':
     while True:
         for zaklad in zakladi:
             if Lovec_1.zadetek(zaklad):
-                Lovec_1.našel_zaklad()
+               Lovec_1.našel_zaklad()
 
         for zaklad in zakladi:
             if Lovec_2.zadetek(zaklad):
-                Lovec_2.našel_zaklad()
+               Lovec_2.našel_zaklad()
 
         for ovira in ovire:
             if Lovec_1.zadetek(ovira):
-                Lovec_1.smrt()
-                Lovec_1.goto(začetki[0])
-
+               Lovec_1.goto(začetki[0])
+               time.sleep(0.5)
+               Lovec_1.smrt()
+               
         for ovira in ovire:
             if Lovec_2.zadetek(ovira):
-                Lovec_2.smrt()
-                Lovec_2.goto(začetki[1])
-    
+               Lovec_2.goto(začetki[1])
+               time.sleep(0.5)
+               Lovec_2.smrt()
+               
         okno.update()
         if zakladi == []:
-            turtle.bye()
-            print("{}: {}".format(Lovec_1.ime, Lovec_1.zlato))
-            print("{}: {}".format(Lovec_2.ime, Lovec_2.zlato))
-            if Lovec_1.zlato > Lovec_2.zlato:
-                print(Lovec_1.ime + " JE ZMAGAL!")
-            elif Lovec_2.zlato > Lovec_1.zlato:
-                print(Lovec_2.ime + " JE ZMAGAL!")
-            elif Lovec_1.zlato == Lovec_2.zlato:
-                print("IZENAČEN IZID!")
+           time.sleep(1.5)
+           turtle.bye()
+           print("{}: {}".format(Lovec_1.ime, Lovec_1.zlato))
+           print("{}: {}".format(Lovec_2.ime, Lovec_2.zlato))
+           if Lovec_1.zlato > Lovec_2.zlato:
+              print(Lovec_1.ime + " JE ZMAGAL!")
+           elif Lovec_2.zlato > Lovec_1.zlato:
+              print(Lovec_2.ime + " JE ZMAGAL!")
+           elif Lovec_1.zlato == Lovec_2.zlato:
+              print("IZENAČEN IZID!")
+
 
     
 
