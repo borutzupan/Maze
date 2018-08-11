@@ -15,10 +15,11 @@ zid = []
 slike = [
     "female-zombie.gif", "male-zombie.gif", "human.gif", "treasure.gif",
     "wall.gif", "dwarf.gif", "flame.gif", "orc.gif", "lava.gif", "grm.gif",
-    "archer.gif", "plant-golem.gif", "viking.gif", "vampire-viking.gif"
+    "archer.gif", "plant-golem.gif", "viking.gif", "vampire-viking.gif",
+    "slime-red.gif"
     ]
-imena_karakterjev = ["dwarf", "orc", "male-zombie", "female-zombie", "human",
-                     "viking", "vampire-viking", "plant-golem, archer"]
+imena_oseb = ["dwarf", "orc", "male-zombie", "female-zombie", "human",
+              "viking", "vampire-viking", "plant-golem", "archer"]
 def dodaj_slike(seznam):
     for slika in seznam:
         turtle.register_shape(slika)
@@ -85,7 +86,7 @@ class Lovec_na_zaklade(turtle.Turtle):
             False
 
     def smrt(self):
-        self.zlato -= 50
+        self.zlato += -50
         turtle.penup()
         turtle.hideturtle()
         turtle.goto(-550, 250)
@@ -151,6 +152,7 @@ class Lava(turtle.Turtle):
         self.penup()
         self.speed(0)
         self.goto(x, y)
+        
 
 class Grm(turtle.Turtle):
     def __init__(self, x, y):
@@ -159,12 +161,21 @@ class Grm(turtle.Turtle):
         self.penup()
         self.speed(0)
         self.goto(x, y)
-        self.zlato = random.randint(-50, 150)
+        self.zlato = random.randint(1, 100)
 
     def grm_preiskan(self):
         self.ht()
 
+
+class Slime(turtle.Turtle):
+    def __init__(self, x, y):
+        turtle.Turtle.__init__(self)
+        self.shape("slime-red.gif")
+        self.penup()
+        self.speed(0)
+        self.goto(x, y)
         
+ 
 #NIVOJI
 def dodaj_nivoje(ime_datoteke):
     with open(ime_datoteke) as vhodna:
@@ -195,6 +206,9 @@ def nariši_labirint(NIVO):
           x_platno = -288 + (x * 24)
           y_platno = 288 - (y * 24)
 
+          if znak == "R":
+              ovire.append(Slime(x_platno, y_platno))
+
           if znak == "G":
               grmi.append(Grm(x_platno, y_platno))
             
@@ -222,7 +236,7 @@ def nariši_labirint(NIVO):
               zid.append((x_platno, y_platno))
 
 
-#OSEBE
+#IZBIRA IMEN IN OSEBE
 pisalo = Pisalo()
 print('')
 print("Igralec 1 uporablja tipke w, s, a, d")
@@ -230,25 +244,25 @@ print("Igralec 2 uporablja tipke Up, Down, Left, Right")
 print('')
 ime_1 = input("Igralec 1, vpiši svoje izbrano ime: ")
 print('')
-karakter_1 = input("""{}, izberi enega iz med karakterjev
+oseba_1 = input("""{}, izberi eneo iz med oseb
 (dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
-plant-golem, archer)
+ plant-golem, archer)
 ali pa se pusti presenetit (random): """.format(ime_1))
 print('')
 ime_2 = input("Igralec 2, vpiši svoje izbrano ime: ")
 print('')
-karakter_2 = input("""{}, izberi enega iz med karakterjev
+oseba_2 = input("""{}, izberi eneo iz med oseb
 (dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
-plant-golem, archer)
+ plant-golem, archer)
 ali pa se pusti presenetit (random): """.format(ime_2))
-if ime_1 != '' and karakter_1 != '':
-    if karakter_1 == 'random':
-        karakter_1 = random.choice(imena_karakterjev)
-    Lovec_1 = Lovec_na_zaklade(ime_1, karakter_1 + ".gif")
-if ime_2 != '' and karakter_2 != '':
-    if karakter_2 == 'random':
-        karakter_2 = random.choice(imena_karakterjev)
-    Lovec_2 = Lovec_na_zaklade(ime_2, karakter_2 + ".gif")
+if ime_1 != '' and oseba_1 != '':
+    if oseba_1 == 'random':
+        oseba_1 = random.choice(imena_oseb)
+    Lovec_1 = Lovec_na_zaklade(ime_1, oseba_1 + ".gif")
+if ime_2 != '' and oseba_2 != '':
+    if oseba_2 == 'random':
+        oseba_2 = random.choice(imena_oseb)
+    Lovec_2 = Lovec_na_zaklade(ime_2, oseba_2 + ".gif")
 
 
 #LABIRINT
@@ -305,11 +319,13 @@ if vrsta_nivoja != '':
                Lovec_2.goto(začetki[1])
                time.sleep(0.3)
                Lovec_2.smrt()
+
                
         okno.update()
         if zakladi == []:
            time.sleep(1)
            turtle.bye()
+           print('')
            print("{}: {}".format(Lovec_1.ime, Lovec_1.zlato))
            print("{}: {}".format(Lovec_2.ime, Lovec_2.zlato))
            print('')
