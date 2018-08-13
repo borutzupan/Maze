@@ -88,38 +88,24 @@ class Lovec_na_zaklade(turtle.Turtle):
 
     def smrt(self):
         self.zlato += -50
-        turtle.penup()
-        turtle.hideturtle()
-        turtle.goto(-570, 250)
-        turtle.color("red")
-        turtle.write("""{}, več sreče prihodnjič!
-Št. kovancev -50""".format(self.ime), False, font=("Arial", 16, "normal"))
-        time.sleep(1.2)
-        turtle.undo()
+        print('')
+        print("""{}, več sreče prihodnjič!
+Št. kovancev -50""".format(self.ime))
+
 
     def našel_zaklad(self):
         self.zlato += zaklad.zlato
-        turtle.penup()
-        turtle.hideturtle()
-        turtle.goto(-550, 250)
-        turtle.color("gold")
-        turtle.write("""Super {}!
-Št. kovancev +100""".format(self.ime), False, font=("Arial", 16, "normal"))
-        time.sleep(1.2)
-        turtle.undo()
+        print('')
+        print("""Super {}!
+Št. kovancev +100""".format(self.ime))
         zaklad.zaklad_pobran()
         zakladi.remove(zaklad)
 
     def našel_grm(self):
         self.zlato += grm.zlato
-        turtle.penup()
-        turtle.hideturtle()
-        turtle.goto(-550, 250)
-        turtle.color("green")
-        turtle.write("""Odlično {}!
-Št. kovancev +{}""".format(self.ime, grm.zlato), False, font=("Arial", 16, "normal"))
-        time.sleep(1.2)
-        turtle.undo()
+        print('')
+        print("""Odlično {}!
+Št. kovancev +{}""".format(self.ime, grm.zlato))
         grm.grm_preiskan()
         grmi.remove(grm)
 
@@ -299,7 +285,7 @@ if vrsta_mape != '':
     okno = turtle.Screen()
     okno.bgcolor("black")
     okno.title("Lovci na zaklade")
-    okno.setup(1200, 670)
+    okno.setup(700, 700)
     okno.tracer(8)
 
 nariši_labirint(mapa[0])
