@@ -340,23 +340,25 @@ if vrsta_mape != '':
         if zakladi == []:
            turtle.penup()
            turtle.hideturtle()
-           turtle.goto(25, 0)
+           turtle.goto(25, 50)
            turtle.color("white")
-           turtle.write("KONEC IGRE", False, align = "center", font=("Arial", 70, "bold"))
-           time.sleep(2)
-           turtle.bye()
-           print('')
-           print("{}: {}".format(Lovec_1.ime, Lovec_1.zlato))
-           print("{}: {}".format(Lovec_2.ime, Lovec_2.zlato))
-           print('')
+           turtle.write("KONEC IGRE", False, align = "center", font = ("Arial", 70, "bold"))
+           time.sleep(1.6)
+           turtle.goto(25, 0)
+           turtle.write("{}: {}".format(Lovec_1.ime, Lovec_1.zlato), False, align = "center", font = ("Arial", 30, "italic"))
+           time.sleep(1)
+           turtle.goto(25, -40)
+           turtle.write("{}: {}".format(Lovec_2.ime, Lovec_2.zlato), False, align = "center", font = ("Arial", 30, "italic"))
+           time.sleep(1)
+           turtle.goto(25, -130)
            if Lovec_1.zlato > Lovec_2.zlato:
-              print(Lovec_1.ime + " JE ZMAGAL!")
+              turtle.write((Lovec_1.ime + " JE ZMAGAL!"), False, align = "center", font = ("Arial", 50, "bold"))
            elif Lovec_2.zlato > Lovec_1.zlato:
-              print(Lovec_2.ime + " JE ZMAGAL!")
+              turlte.write((Lovec_2.ime + " JE ZMAGAL!"), False, align = "center", font = ("Arial", 50, "bold"))
            elif Lovec_1.zlato == Lovec_2.zlato:
-              print("IZENAČEN IZID!")
+              turtle.write(("IZENAČEN IZID!"), False, align = "center", fonrt = ("Arial", 50, "bold"))
 
-        
+           turtle.exitonclick()
 
 
     
