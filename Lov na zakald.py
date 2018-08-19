@@ -89,23 +89,20 @@ class Lovec_na_zaklade(turtle.Turtle):
     def smrt(self):
         self.zlato += -50
         print('')
-        print("""{}, več sreče prihodnjič!
-Št. kovancev -50""".format(self.ime))
+        print("{}, več sreče prihodnjič!\nŠt. kovancev -50".format(self.ime))
 
 
     def našel_zaklad(self):
         self.zlato += zaklad.zlato
         print('')
-        print("""Super {}!
-Št. kovancev +100""".format(self.ime))
+        print("Super {}!\nŠt. kovancev +100".format(self.ime))
         zaklad.zaklad_pobran()
         zakladi.remove(zaklad)
 
     def našel_grm(self):
         self.zlato += grm.zlato
         print('')
-        print("""Odlično {}!
-Št. kovancev +{}""".format(self.ime, grm.zlato))
+        print("Odlično {}!\nŠt. kovancev +{}".format(self.ime, grm.zlato))
         grm.grm_preiskan()
         grmi.remove(grm)
 
@@ -171,8 +168,7 @@ def dodaj_mapo(ime_datoteke):
             tabela.append(vrstica)
     return tabela
 
-vrsta_mape = input("""Katero mapo bi radi?
-mapa_1, mapa_2 ali mapa_3? """)
+vrsta_mape = input("Katero mapo bi radi?\nmapa_1, mapa_2 ali mapa_3? ")
 
 while True:
     if vrsta_mape in ['mapa_1', 'mapa_2', 'mapa_3']:
@@ -182,8 +178,7 @@ while True:
        print('')
        print("TE MAPE NI V SEZNAMU!")
        print('')
-       vrsta_mape = input("""Katero mapo bi radi?
-mapa_1, mapa_2 ali mapa_3? """)
+       vrsta_mape = input("Katero mapo bi radi?\nmapa_1, mapa_2 ali mapa_3? ")
 
 
 #LABIRINT - FUNKCIJA
@@ -232,40 +227,28 @@ print("Igralec 2 uporablja tipke Up, Down, Left, Right")
 print('')
 ime_1 = input("Igralec 1, vpiši svoje izbrano ime: ")
 print('')
-oseba_1 = input("""{}, izberi eneo iz med oseb
-(dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
- plant-golem, archer)
-ali pa se pusti presenetit (random): """.format(ime_1))
+oseba_1 = input("{}, izberi eneo iz med oseb\n (dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking, \n  plant-golem, archer) \n  ali pa se pusti presenetit (random): ".format(ime_1))
 
 while True:
     if (oseba_1 != 'random') and (oseba_1 not in imena_oseb):
         print('')
         print("TE OSEBE NI V SEZNAMU!")
         print('')
-        oseba_1 = input("""{}, izberi eneo iz med oseb
-(dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
- plant-golem, archer)
-ali pa se pusti presenetit (random): """.format(ime_1))
+        oseba_1 = input("{}, izberi eneo iz med oseb \n (dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking, \n  plant-golem, archer) \n  ali pa se pusti presenetit (random): ".format(ime_1))
     else:
         break
 
 print('')  
 ime_2 = input("Igralec 2, vpiši svoje izbrano ime: ")
 print('')
-oseba_2 = input("""{}, izberi eneo iz med oseb
-(dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
- plant-golem, archer)
-ali pa se pusti presenetit (random): """.format(ime_2))
+oseba_2 = input("{}, izberi eneo iz med oseb\n (dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking, \n  plant-golem, archer) \n  ali pa se pusti presenetit (random): ".format(ime_2))
 
 while True:
     if (oseba_2 != 'random') and (oseba_2 not in imena_oseb):
         print('')
         print("TE OSEBE NI V SEZNAMU!")
         print('')
-        oseba_2 = input("""{}, izberi eneo iz med oseb
-(dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking,
- plant-golem, archer)
-ali pa se pusti presenetit (random): """.format(ime_2))
+        oseba_2 = input("{}, izberi eneo iz med oseb\n (dwarf, orc, male-zombie, female-zombie, human, viking, vampire-viking, \n  plant-golem, archer) \n  ali pa se pusti presenetit (random): ".format(ime_2))
     else:
         break
 
