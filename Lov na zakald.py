@@ -220,7 +220,6 @@ def nariši_labirint(MAPA):
 
 
 #IZBIRA IMEN IN OSEBE
-pisalo = Pisalo()
 print('')
 print("Igralec 1 uporablja tipke w, s, a, d")
 print("Igralec 2 uporablja tipke Up, Down, Left, Right")
@@ -271,6 +270,7 @@ if vrsta_mape != '':
     okno.setup(700, 700)
     okno.tracer(8)
 
+pisalo = Pisalo()
 nariši_labirint(mapa[0])
 
 
@@ -320,6 +320,7 @@ if vrsta_mape != '':
 
                
         okno.update()
+        
         if zakladi == []:
            turtle.penup()
            turtle.hideturtle()
